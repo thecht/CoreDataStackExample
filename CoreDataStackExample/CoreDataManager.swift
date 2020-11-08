@@ -70,13 +70,49 @@ public class CoreDataManager {
         return persistentStoreCoordinator
     }()
     
-    public private(set) lazy var managedObjectContext: NSManagedObjectContext = {
+    private lazy var privateManagedObjectContext: NSManagedObjectContext = {
         // Initialize Managed Object Context
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         
         // Configure Managed Object Context
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         
         return managedObjectContext
     }()
+    
+    // MARK:- Public API
+    
+    public private(set) lazy var mainManagedObjectContext: NSManagedObjectContext = {
+        // Initialize Managed Object Context
+        let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        
+        // Configure Managed Object Context
+        managedObjectContext.parent = self.privateManagedObjectContext
+        
+        return managedObjectContext
+    }()
+    
+    public func saveChanges() {
+        mainManagedObjectContext.performAndWait {
+            do {
+                if self.mainManagedObjectContext.hasChanges {
+                    try self.mainManagedObjectContext.save()
+                }
+            } catch {
+                print("Unable to save changes of Main Managed Object Context.")
+                print("\(error), \(error.localizedDescription)")
+            }
+        }
+        
+        privateManagedObjectContext.perform {
+            do {
+                if self.privateManagedObjectContext.hasChanges {
+                    try self.privateManagedObjectContext.save()
+                }
+            } catch {
+                print("Unable to save changes of Private Managed Object Context.")
+                print("\(error), \(error.localizedDescription)")
+            }
+        }
+    }
 }

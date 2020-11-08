@@ -63,12 +63,12 @@
 				91DB9546255058E500A48D87 /* AppDelegate.swift */,
 				91DB9548255058E500A48D87 /* SceneDelegate.swift */,
 				91DB954A255058E500A48D87 /* ViewController.swift */,
+				91DB955B2550605E00A48D87 /* DataModel.xcdatamodeld */,
+				91DB955F2550607000A48D87 /* CoreDataManager.swift */,
 				91DB954C255058E500A48D87 /* Main.storyboard */,
 				91DB954F255058E600A48D87 /* Assets.xcassets */,
 				91DB9551255058E600A48D87 /* LaunchScreen.storyboard */,
 				91DB9554255058E600A48D87 /* Info.plist */,
-				91DB955B2550605E00A48D87 /* DataModel.xcdatamodeld */,
-				91DB955F2550607000A48D87 /* CoreDataManager.swift */,
 			);
 			path = CoreDataStackExample;
 			sourceTree = "<group>";
