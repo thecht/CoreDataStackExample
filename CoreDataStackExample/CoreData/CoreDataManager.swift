@@ -92,6 +92,16 @@ public class CoreDataManager {
         return managedObjectContext
     }()
     
+    public func privateChildManagedObjectContext() -> NSManagedObjectContext {
+        // Initialize Managed Object Context
+        let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+
+        // Configure Managed Object Context
+        managedObjectContext.parent = mainManagedObjectContext
+
+        return managedObjectContext
+    }
+    
     public func saveChanges() {
         mainManagedObjectContext.performAndWait {
             do {

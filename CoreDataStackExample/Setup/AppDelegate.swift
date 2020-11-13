@@ -6,15 +6,12 @@
 //
 
 import UIKit
+import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    private let coreDataManager = CoreDataManager(modelName: "DataModel")
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        print(coreDataManager.mainManagedObjectContext)
         
         return true
     }
