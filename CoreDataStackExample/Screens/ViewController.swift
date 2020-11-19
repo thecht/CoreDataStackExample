@@ -41,15 +41,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupButtons()
-        let container = dataManager.container
-        print("ViewContextParent: \(String(describing: container.viewContext.parent))")
-        
-        let backgroundContext = container.newBackgroundContext()
-        backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        backgroundContext.undoManager = nil
-        
-        print("BackgroundParent: \(backgroundContext.parent)")
-        
     }
     
     private func setupButtons() {
