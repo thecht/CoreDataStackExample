@@ -12,35 +12,23 @@ class ViewController: UIViewController {
         
     var dataManager: CoreDataManager!
     
-    var deleteButton: CDButton = {
-        let btn = CDButton(backgroundColor: .systemRed, title: "Delete")
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(deleteStores), for: .touchUpInside)
-        return btn
-    }()
-    var addButton1: CDButton = {
-        let btn = CDButton(backgroundColor: .systemBlue, title: "Add Data")
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(addData), for: .touchUpInside)
-        return btn
-    }()
-    var addButton2: CDButton = {
-        let btn = CDButton(backgroundColor: .systemGreen, title: "Add Background Data")
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(addBGData), for: .touchUpInside)
-        return btn
-    }()
-    var printViewStoreButton: CDButton = {
-        let btn = CDButton(backgroundColor: .systemPurple, title: "Print")
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(printData), for: .touchUpInside)
-        return btn
-    }()
+    var deleteButton: CDButton!
+    var addButton1: CDButton!
+    var addButton2: CDButton!
+    var printViewStoreButton: CDButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        createButtons()
         setupButtons()
+    }
+    
+    private func createButtons() {
+        deleteButton = CDButton(backgroundColor: .systemRed, title: "Delete", target: self, action: #selector(deleteStores))
+        addButton1 = CDButton(backgroundColor: .systemBlue, title: "Add Data", target: self, action: #selector(addData))
+        addButton2 = CDButton(backgroundColor: .systemGreen, title: "Add Background Data", target: self, action: #selector(addBGData))
+        printViewStoreButton = CDButton(backgroundColor: .systemPurple, title: "Print", target: self, action: #selector(printData))
     }
     
     private func setupButtons() {
@@ -77,9 +65,9 @@ class ViewController: UIViewController {
             printViewStoreButton.heightAnchor.constraint(equalToConstant: 50),
             printViewStoreButton.topAnchor.constraint(equalTo: addButton2.bottomAnchor, constant: padding)
         ])
-
     }
     
+    // Adds data on the main thread
     @objc private func addData() {
         let context = dataManager.container.viewContext
         
@@ -98,6 +86,7 @@ class ViewController: UIViewController {
         print("DATA ADDED")
     }
     
+    // Adds data on the background thread
     @objc private func addBGData() {
         let bgContext = dataManager.container.newBackgroundContext()
         bgContext.perform { [weak self] in

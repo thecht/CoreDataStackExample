@@ -18,10 +18,12 @@ class CDButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(backgroundColor: UIColor, title: String) {
+    convenience init(backgroundColor: UIColor, title: String, target: Any?, action: Selector) {
         self.init(frame: .zero)
         self.backgroundColor = backgroundColor
         self.setTitle(title, for: .normal)
+        self.addTarget(target, action: action, for: .touchUpInside)
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupButton() {
